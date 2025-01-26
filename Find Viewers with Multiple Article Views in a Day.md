@@ -20,7 +20,7 @@ The result should contain a single column named `viewer_id`, listing each viewer
 | 3          | 4         | 4         | 2023-08-17 |
 | 3          | 4         | 4         | 2023-08-17 |
 
-## Solution Query
+## Solution
 ```sql
 SELECT DISTINCT viewer_id
 FROM (SELECT DISTINCT * FROM playground.views)
