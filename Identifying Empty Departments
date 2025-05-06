@@ -1,0 +1,56 @@
+# Identifying Empty Departments
+
+## Problem Statement
+Given two tables, `playground.employees` and `playground.departments`, write a SQL query to list all department names (`dep_name`) that currently have no employees assigned. The output should include only one column:
+- `dep_name` (varchar)
+
+The results should be sorted by the department `id`.
+
+### Table Structures
+**playground.employees**
+- `id` (int): Unique employee ID
+- `full_name` (string): Employee full name
+- `department` (int): Department ID
+
+**playground.departments**
+- `id` (int): Unique department ID
+- `dep_name` (string): Department name
+
+### Sample Data
+#### employees
+| id | full_name   | department |
+|----|-------------|------------|
+| 1  | Alice Smith | 2          |
+| 2  | Bob Jones   | 3          |
+
+#### departments
+| id | dep_name      |
+|----|---------------|
+| 1  | HR            |
+| 2  | Engineering   |
+| 3  | Sales         |
+| 4  | Legal         |
+
+### Expected Output
+| dep_name |
+|----------|
+| HR       |
+| Legal    |
+
+## Solution Query
+```sql
+SELECT d.dep_name 
+FROM playground.departments d
+LEFT JOIN playground.employees e
+  ON d.id = e.department
+WHERE e.department IS NULL
+ORDER BY d.id;
+```
+
+### Explanation
+- **LEFT JOIN** is used to combine all departments with employees. If a department has no matching employees, the columns from `employees` will be `NULL`.
+- The `WHERE e.department IS NULL` clause filters out only those departments with no employees.
+- Finally, results are ordered by department `id` as specified.
+
+### Common Mistake
+A frequent error is using an `INNER JOIN`, which would exclude departments without employees. To capture all departments—including those with no employees—you must use a `LEFT JOIN` and filter where the right-side (employees) is `NULL`.
