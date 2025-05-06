@@ -1,0 +1,48 @@
+# Customers with More Than 20 Orders
+
+## Problem Statement
+Write a SQL query to display all loyal customers from the `playground.superstore` table. A customer is considered loyal if they have placed more than 20 orders.
+
+The table includes the following relevant columns:
+- `customer_id` (string)
+- `customer_name` (string)
+- `order_id` (string)
+
+The result should include:
+- `customer_id` (varchar)
+- `customer_name` (varchar)
+- `order_count` (integer)
+
+The output should be sorted by `order_count` in descending order and then by `customer_name` in ascending order.
+
+### Sample Columns
+| customer_id | customer_name | order_id |
+|-------------|----------------|----------|
+| CG-12520    | Claire Gute    | CA-2016-152156 |
+| DV-13045    | Darrin Van Huff| CA-2016-138688 |
+| BH-11710    | Bill Hemmeter | CA-2014-115812 |
+
+## Solution Query
+```sql
+SELECT 
+    customer_id, 
+    customer_name, 
+    COUNT(order_id) AS order_count
+FROM 
+    playground.superstore
+GROUP BY 
+    customer_id, 
+    customer_name
+HAVING 
+    COUNT(order_id) > 20
+ORDER BY 
+    order_count DESC, 
+    customer_name ASC;
+```
+
+### Explanation
+To solve this problem:
+1. **Grouping**: We group by both `customer_id` and `customer_name` to get per-customer aggregations.
+2. **Aggregation**: We count the number of orders per customer using `COUNT(order_id)`.
+3. **Filtering**: The `HAVING` clause filters to only include customers with more than 20 orders.
+4. **Ordering**: Finally, results are ordered by `order_count` in descending order, and then `customer_name` in ascending order for consistency and readability.
