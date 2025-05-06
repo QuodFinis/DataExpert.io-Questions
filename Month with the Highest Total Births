@@ -1,0 +1,45 @@
+# Month with the Highest Total Births
+
+## Problem Statement
+Determine the month with the highest total number of births in the `playground.us_birth_stats` table. The table includes the following columns:
+- `year` (int)
+- `month` (int)
+- `date_of_month` (int)
+- `day_of_week` (int)
+- `births` (int)
+
+The result should include:
+- `month` (integer)
+- `total_births` (integer)
+
+### Sample Data
+| year | month | date_of_month | day_of_week | births |
+|------|--------|----------------|--------------|--------|
+| 2000 | 1      | 1              | 6            | 9083   |
+| 2014 | 12     | 31             | 3            | 11990  |
+| 2014 | 12     | 30             | 2            | 13634  |
+| 2014 | 12     | 29             | 1            | 12811  |
+| 2014 | 12     | 28             | 7            | 7724   |
+| 2014 | 12     | 27             | 6            | 8656   |
+| 2014 | 12     | 26             | 5            | 10386  |
+| 2014 | 12     | 25             | 4            | 6749   |
+| 2014 | 12     | 24             | 3            | 9308   |
+| 2014 | 12     | 23             | 2            | 12604  |
+
+## Solution Query
+```sql
+SELECT month, SUM(births) AS total_births
+FROM playground.us_birth_stats
+GROUP BY month
+ORDER BY total_births DESC
+LIMIT 1;
+```
+
+### Explanation
+To find the month with the most births:
+- **Aggregation**: Use `SUM(births)` to calculate the total number of births per month.
+- **Grouping**: Use `GROUP BY month` to aggregate births by each month across all years.
+- **Sorting**: Order the results in descending order by `total_births` so the month with the highest total comes first.
+- **Limiting**: Use `LIMIT 1` to return only the top result.
+
+This approach effectively identifies the month with the greatest birth volume in the dataset.
